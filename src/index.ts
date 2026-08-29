@@ -15,7 +15,7 @@ const JANITOR_CONSUMER = `janitor-${Bun.randomUUIDv7()}`;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function startAutoClaimWorker() {
+export async function startAutoClaimWorker() {
     await redisClient.connect();
     console.log(`[Janitor] Started recovery worker: ${JANITOR_CONSUMER}`);
 
@@ -94,8 +94,3 @@ const handleShutdown = () => {
 
 process.on('SIGTERM', handleShutdown);
 process.on('SIGINT', handleShutdown);
-
-startAutoClaimWorker().catch((err) => {
-    console.log("Fatal Error, auto claim worker died : ", err);
-    process.exit(1);
-});
